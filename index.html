@@ -14,44 +14,23 @@
         <div id="sidebar-name">Luminaria</div>
         <div id="sidebar-sub">FANMADE Dashboard</div>
       </div>
-      <nav>
-        <button class="nav-btn active" data-section="top">TOP</button>
-        <button class="nav-btn" data-section="games">ゲーム統計</button>
-        <button class="nav-btn" data-section="singing">歌枠統計</button>
+      <nav id="nav">
+        <button class="nav-btn active" data-section="dashboard">Dashboard</button>
+        <div class="nav-divider"></div>
+        <!-- タレントボタンはJSで生成 -->
       </nav>
       <div id="sidebar-note">非公式ファンメイド</div>
     </aside>
 
     <main id="main">
 
-      <!-- TOP -->
-      <section id="section-top" class="section active">
-        <h2>ダッシュボード</h2>
-        <div class="card-grid" id="top-cards">
-          <div class="card" id="top-games">
-            <div class="card-label">ゲーム統計</div>
-            <div class="card-stats" id="top-games-stats">読み込み中...</div>
-          </div>
-          <div class="card" id="top-singing">
-            <div class="card-label">歌枠統計</div>
-            <div class="card-stats" id="top-singing-stats">読み込み中...</div>
-          </div>
-        </div>
+      <!-- Dashboard -->
+      <section id="section-dashboard" class="section active">
+        <h2>Dashboard</h2>
+        <div class="talent-card-grid" id="dashboard-cards">読み込み中...</div>
       </section>
 
-      <!-- ゲーム統計 -->
-      <section id="section-games" class="section">
-        <h2>ゲーム統計</h2>
-        <div class="summary-grid" id="games-summary"></div>
-        <div id="games-list"></div>
-      </section>
-
-      <!-- 歌枠統計 -->
-      <section id="section-singing" class="section">
-        <h2>歌枠統計</h2>
-        <div class="summary-grid" id="singing-summary"></div>
-        <div id="singing-list"></div>
-      </section>
+      <!-- タレントセクションはJSで生成 -->
 
     </main>
   </div>

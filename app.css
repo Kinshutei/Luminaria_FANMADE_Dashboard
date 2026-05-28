@@ -12,7 +12,6 @@ body {
   overflow: hidden;
 }
 
-/* レイアウト */
 #layout {
   display: flex;
   height: 100vh;
@@ -27,12 +26,13 @@ body {
   display: flex;
   flex-direction: column;
   padding: 24px 0 16px;
+  overflow-y: auto;
 }
 
 #sidebar-title {
-  padding: 0 20px 24px;
+  padding: 0 20px 20px;
   border-bottom: 1px solid #2a2a4a;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 #sidebar-name {
@@ -47,7 +47,7 @@ body {
   margin-top: 2px;
 }
 
-nav {
+#nav {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -60,7 +60,7 @@ nav {
   border: none;
   color: #888;
   text-align: left;
-  padding: 10px 12px;
+  padding: 9px 12px;
   border-radius: 8px;
   font-size: 0.9rem;
   cursor: pointer;
@@ -79,8 +79,14 @@ nav {
   font-weight: bold;
 }
 
+.nav-divider {
+  height: 1px;
+  background: #2a2a4a;
+  margin: 8px 0;
+}
+
 #sidebar-note {
-  padding: 0 20px;
+  padding: 12px 20px 0;
   font-size: 0.7rem;
   color: #444;
 }
@@ -100,62 +106,88 @@ nav {
   display: block;
 }
 
-.section h2 {
+.section > h2 {
   font-size: 1.4rem;
   color: #c4b5fd;
   margin-bottom: 24px;
 }
 
-/* TOPカード */
-.card-grid {
+/* Dashboardカード */
+.talent-card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 16px;
 }
 
-.card {
+.talent-card {
   background: #1a1a2e;
   border: 1px solid #2a2a4a;
   border-radius: 12px;
-  padding: 20px 24px;
+  padding: 18px 20px;
 }
 
-.card-label {
-  font-size: 0.85rem;
-  color: #888;
-  margin-bottom: 12px;
-}
-
-.card-stats {
-  font-size: 0.9rem;
-  color: #ccc;
-  line-height: 1.8;
-}
-
-/* サマリーグリッド */
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
-  margin-bottom: 32px;
-}
-
-.summary-item {
-  background: #1a1a2e;
-  border: 1px solid #2a2a4a;
-  border-radius: 10px;
-  padding: 16px;
-  text-align: center;
-}
-
-.summary-item .label {
-  font-size: 0.78rem;
-  color: #888;
-  margin-bottom: 6px;
-}
-
-.summary-item .value {
-  font-size: 1.8rem;
+.talent-card-name {
+  font-size: 1rem;
   font-weight: bold;
   color: #c4b5fd;
+  margin-bottom: 8px;
+}
+
+.talent-card-stat {
+  font-size: 0.85rem;
+  color: #aaa;
+  margin-bottom: 4px;
+}
+
+.talent-card-latest {
+  font-size: 0.78rem;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 配信一覧テーブル */
+.stream-table-wrap {
+  overflow-x: auto;
+}
+
+.stream-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.stream-table th {
+  text-align: left;
+  padding: 10px 16px;
+  color: #888;
+  font-weight: normal;
+  border-bottom: 1px solid #2a2a4a;
+  white-space: nowrap;
+}
+
+.stream-table td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #1e1e36;
+}
+
+.stream-table tr:hover td {
+  background: #1a1a2e;
+}
+
+.col-date {
+  white-space: nowrap;
+  color: #888;
+  width: 110px;
+}
+
+.col-title {
+  color: #e8e8f0;
+}
+
+.empty {
+  color: #555;
+  font-size: 0.9rem;
+  padding: 16px 0;
 }

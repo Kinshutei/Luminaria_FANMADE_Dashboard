@@ -1,42 +1,83 @@
-// セクション切り替え
-const navBtns = document.querySelectorAll('.nav-btn');
-const sections = document.querySelectorAll('.section');
+const TALENTS = [
+  { id: 'minato', name: '蒼唯みなと' },
+  { id: 'hotaru', name: '姫守ほたる' },
+  { id: 'rinne',  name: '迷宮りんね' },
+  { id: 'miro',   name: '堕天みろ'   },
+  { id: 'ria',    name: '恋宵りあ'   },
+  { id: 'hibiki', name: '霞翠ひびき' },
+];
 
-navBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    const target = btn.dataset.section;
-    navBtns.forEach(b => b.classList.remove('active'));
-    sections.forEach(s => s.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('section-' + target).classList.add('active');
-  });
+// サイドバーボタンとセクションを生成
+const nav  = document.getElementById('nav');
+const main = document.getElementById('main');
+
+TALENTS.forEach(t => {
+  const btn = document.createElement('button');
+  btn.className = 'nav-btn';
+  btn.dataset.section = t.id;
+  btn.textContent = t.name;
+  nav.appendChild(btn);
+
+  const sec = document.createElement('section');
+  sec.id = 'section-' + t.id;
+  sec.className = 'section';
+  sec.innerHTML = `
+    <h2>${t.name}</h2>
+    <div class="stream-table-wrap" id="streams-${t.id}">
+      <p class="empty">読み込み中...</p>
+    </div>
+  `;
+  main.appendChild(sec);
+});
+
+// セクション切り替え
+document.getElementById('nav').addEventListener('click', e => {
+  const btn = e.target.closest('.nav-btn');
+  if (!btn) return;
+  const target = btn.dataset.section;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('section-' + target).classList.add('active');
 });
 
 // データ読み込み
-Promise.all([
-  fetch('data/games/games.json').then(r => r.json()),
-  fetch('data/singing/singing.json').then(r => r.json()),
-]).then(([games, singing]) => {
-  const g = games.summary;
-  const s = singing.summary;
+Promise.all(
+  TALENTS.map(t => fetch(`data/talents/${t.id}.json`).then(r => r.json()))
+).then(results => {
+  // Dashboardカード
+  const cards = TALENTS.map((t, i) => {
+    const count = results[i].streams.length;
+    const latest = results[i].streams.at(-1);
+    return `
+      <div class="talent-card">
+        <div class="talent-card-name">${t.name}</div>
+        <div class="talent-card-stat">配信数: ${count}</div>
+        <div class="talent-card-latest">${latest ? '最終: ' + latest.date + ' ' + latest.title : '配信データなし'}</div>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('dashboard-cards').innerHTML = cards;
 
-  // TOPカード
-  document.getElementById('top-games-stats').innerHTML =
-    `総配信数: ${g.totalStreams}<br>総時間: ${g.totalHours}h<br>タイトル数: ${g.uniqueGames}`;
-  document.getElementById('top-singing-stats').innerHTML =
-    `歌枠回数: ${s.totalStreams}<br>総歌唱数: ${s.totalSongs}<br>ユニーク曲数: ${s.uniqueSongs}`;
-
-  // ゲームサマリー
-  document.getElementById('games-summary').innerHTML = `
-    <div class="summary-item"><div class="label">総配信数</div><div class="value">${g.totalStreams}</div></div>
-    <div class="summary-item"><div class="label">総時間（h）</div><div class="value">${g.totalHours}</div></div>
-    <div class="summary-item"><div class="label">タイトル数</div><div class="value">${g.uniqueGames}</div></div>
-  `;
-
-  // 歌枠サマリー
-  document.getElementById('singing-summary').innerHTML = `
-    <div class="summary-item"><div class="label">歌枠回数</div><div class="value">${s.totalStreams}</div></div>
-    <div class="summary-item"><div class="label">総歌唱数</div><div class="value">${s.totalSongs}</div></div>
-    <div class="summary-item"><div class="label">ユニーク曲数</div><div class="value">${s.uniqueSongs}</div></div>
-  `;
+  // 各タレントの配信一覧
+  TALENTS.forEach((t, i) => {
+    const streams = results[i].streams;
+    const wrap = document.getElementById('streams-' + t.id);
+    if (!streams.length) {
+      wrap.innerHTML = '<p class="empty">配信データがありません。</p>';
+      return;
+    }
+    const rows = streams.slice().reverse().map(s => `
+      <tr>
+        <td class="col-date">${s.date}</td>
+        <td class="col-title">${s.title}</td>
+      </tr>
+    `).join('');
+    wrap.innerHTML = `
+      <table class="stream-table">
+        <thead><tr><th>日付</th><th>タイトル</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+  });
 });
