@@ -8,66 +8,105 @@ body {
   font-family: 'Hiragino Sans', 'Meiryo', sans-serif;
   background: #0f0f1a;
   color: #e8e8f0;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
-header {
-  background: #1a1a2e;
-  padding: 16px 24px;
-  border-bottom: 1px solid #2a2a4a;
+/* レイアウト */
+#layout {
   display: flex;
-  align-items: center;
-  gap: 32px;
+  height: 100vh;
 }
 
-header h1 {
+/* サイドバー */
+#sidebar {
+  width: 200px;
+  min-width: 200px;
+  background: #13132a;
+  border-right: 1px solid #2a2a4a;
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0 16px;
+}
+
+#sidebar-title {
+  padding: 0 20px 24px;
+  border-bottom: 1px solid #2a2a4a;
+  margin-bottom: 16px;
+}
+
+#sidebar-name {
   font-size: 1.1rem;
-  color: #a89bda;
-  white-space: nowrap;
+  font-weight: bold;
+  color: #c4b5fd;
+}
+
+#sidebar-sub {
+  font-size: 0.7rem;
+  color: #555;
+  margin-top: 2px;
 }
 
 nav {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 12px;
+  flex: 1;
 }
 
-nav a {
+.nav-btn {
+  background: none;
+  border: none;
   color: #888;
-  text-decoration: none;
-  padding: 6px 14px;
-  border-radius: 6px;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
   font-size: 0.9rem;
-  transition: background 0.2s, color 0.2s;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  font-family: inherit;
 }
 
-nav a:hover {
+.nav-btn:hover {
   background: #2a2a4a;
   color: #e8e8f0;
 }
 
-nav a.active {
+.nav-btn.active {
   background: #3a2a6a;
   color: #c4b5fd;
+  font-weight: bold;
 }
 
-main {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 32px 24px;
+#sidebar-note {
+  padding: 0 20px;
+  font-size: 0.7rem;
+  color: #444;
 }
 
-main h2 {
+/* メインコンテンツ */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 32px;
+}
+
+.section {
+  display: none;
+}
+
+.section.active {
+  display: block;
+}
+
+.section h2 {
   font-size: 1.4rem;
-  margin-bottom: 24px;
   color: #c4b5fd;
+  margin-bottom: 24px;
 }
 
-.note {
-  font-size: 0.8rem;
-  color: #555;
-  margin-bottom: 32px;
-}
-
+/* TOPカード */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -78,31 +117,25 @@ main h2 {
   background: #1a1a2e;
   border: 1px solid #2a2a4a;
   border-radius: 12px;
-  padding: 24px;
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.2s, background 0.2s;
+  padding: 20px 24px;
 }
 
-.card:hover {
-  border-color: #7c3aed;
-  background: #1e1a38;
-}
-
-.card h2 {
-  font-size: 1.2rem;
-  margin-bottom: 8px;
-  color: #c4b5fd;
-}
-
-.card p {
-  font-size: 0.9rem;
+.card-label {
+  font-size: 0.85rem;
   color: #888;
+  margin-bottom: 12px;
 }
 
+.card-stats {
+  font-size: 0.9rem;
+  color: #ccc;
+  line-height: 1.8;
+}
+
+/* サマリーグリッド */
 .summary-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 12px;
   margin-bottom: 32px;
 }
@@ -116,7 +149,7 @@ main h2 {
 }
 
 .summary-item .label {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   color: #888;
   margin-bottom: 6px;
 }
